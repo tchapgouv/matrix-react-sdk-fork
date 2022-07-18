@@ -23,6 +23,7 @@ import { _t } from '../../../../languageHandler';
 import * as MegolmExportEncryption from '../../../../utils/MegolmExportEncryption';
 import { IDialogProps } from "../../../../components/views/dialogs/IDialogProps";
 import BaseDialog from "../../../../components/views/dialogs/BaseDialog";
+import SdkConfig from '../../../../SdkConfig';
 
 enum Phase {
     Edit = "edit",
@@ -74,6 +75,8 @@ export default class ExportE2eKeysDialog extends React.Component<IProps, IState>
     };
 
     private startExport(passphrase: string): void {
+        const brand = SdkConfig.get().brand;
+
         // extra Promise.resolve() to turn synchronous exceptions into
         // asynchronous ones.
         Promise.resolve().then(() => {
@@ -86,7 +89,7 @@ export default class ExportE2eKeysDialog extends React.Component<IProps, IState>
             const blob = new Blob([f], {
                 type: 'text/plain;charset=us-ascii',
             });
-            FileSaver.saveAs(blob, 'element-keys.txt');
+            FileSaver.saveAs(blob, `${brand}-keys.txt`);
             this.props.onFinished(true);
         }).catch((e) => {
             logger.error("Error exporting e2e keys:", e);
