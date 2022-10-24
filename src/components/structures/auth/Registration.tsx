@@ -38,6 +38,7 @@ import InteractiveAuth, { InteractiveAuthCallback } from "../InteractiveAuth";
 import Spinner from "../../views/elements/Spinner";
 import { AuthHeaderDisplay } from './header/AuthHeaderDisplay';
 import { AuthHeaderProvider } from './header/AuthHeaderProvider';
+import { AuthHeaderModifier } from './header/AuthHeaderModifier'; // :TCHAP:
 import SettingsStore from '../../../settings/SettingsStore';
 import { ValidatedServerConfig } from '../../../utils/ValidatedServerConfig';
 
@@ -651,6 +652,12 @@ export default class Registration extends React.Component<IProps, IState> {
                         { errorText }
                         { serverDeadSection }
                     </AuthHeaderDisplay>
+                    { /* :TCHAP: remove the serverpicker, using AuthHeaderModifier. Inspired by InteractiveAuthEntryComponents. */}
+                    <AuthHeaderModifier
+                        title={_t('Create account') /* we actually don't want to set this. */}
+                        hideServerPicker={true}
+                    />
+                    { /* end :TCHAP: */}
                     { this.renderRegisterComponent() }
                 </div>
                 <div className="mx_Register_footerActions">
