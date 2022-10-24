@@ -41,6 +41,7 @@ import { AuthHeaderProvider } from './header/AuthHeaderProvider';
 import { AuthHeaderModifier } from './header/AuthHeaderModifier'; // :TCHAP:
 import SettingsStore from '../../../settings/SettingsStore';
 import { ValidatedServerConfig } from '../../../utils/ValidatedServerConfig';
+import TchapUtils from '../../../../../../src/util/TchapUtils';
 
 const debuglog = (...args: any[]) => {
     if (SettingsStore.getValue("debug_registration")) {
@@ -274,6 +275,12 @@ export default class Registration extends React.Component<IProps, IState> {
     }
 
     private onFormSubmit = async (formVals: Record<string, string>): Promise<void> => {
+        // todo group the two TchapUtils functions into one, they are always used together.
+        const server = await TchapUtils.fetchHomeserverForEmail(formVals.email);
+        const validatedServerConfig = TchapUtils.makeValidatedServerConfig(server);
+        // Note : onServerConfigChange triggers a state change at the matrixChat level. All the children are rerendered.
+        this.props.onServerConfigChange(validatedServerConfig);
+
         this.setState({
             errorText: "",
             busy: true,
