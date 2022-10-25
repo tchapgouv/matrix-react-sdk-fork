@@ -263,7 +263,7 @@ export default class RegistrationForm extends React.PureComponent<IProps, IState
     };
 
     private validateEmailRules = withValidation({
-        description: () => _t("Use an email address to recover your account"),
+        // :TCHAP: this is confusing because email=username in the Tchap case. // description: () => _t("Use an email address to recover your account"),
         hideDescriptionIfValid: true,
         rules: [
             {
@@ -271,7 +271,10 @@ export default class RegistrationForm extends React.PureComponent<IProps, IState
                 test(this: RegistrationForm, { value, allowEmpty }) {
                     return allowEmpty || !this.authStepIsRequired('m.login.email.identity') || !!value;
                 },
-                invalid: () => _t("Enter email address (required on this homeserver)"),
+                // :TCHAP: don't mention homeserver, Tchap hides the concept from users.
+                //invalid: () => _t("Enter email address (required on this homeserver)"),
+                invalid: () => _t("Enter email address"),
+                // end :TCHAP:
             },
             {
                 key: "email",
