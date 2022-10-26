@@ -35,7 +35,6 @@ import RegistrationEmailPromptDialog from '../dialogs/RegistrationEmailPromptDia
 import CountryDropdown from "./CountryDropdown";
 import PassphraseConfirmField from "./PassphraseConfirmField";
 import { PosthogAnalytics } from '../../../PosthogAnalytics';
-import TchapUtils from '../../../../../../src/util/TchapUtils';
 
 enum RegistrationField {
     Email = "field_email",

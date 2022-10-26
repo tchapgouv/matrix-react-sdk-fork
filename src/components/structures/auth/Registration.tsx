@@ -297,7 +297,6 @@ export default class Registration extends React.Component<IProps, IState> {
             formVals,
             doingUIAuth: true,
             matrixClient: this.createTemporaryClient(validatedServerConfig.hsUrl, validatedServerConfig.isUrl),
-            // todo try also MatrixClientPeg.get(), but I don't know which value will be used, before or after state change ?
         });
     };
 

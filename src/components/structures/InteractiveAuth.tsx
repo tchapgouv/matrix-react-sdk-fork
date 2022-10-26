@@ -96,7 +96,7 @@ interface IState {
 }
 
 export default class InteractiveAuthComponent extends React.Component<IProps, IState> {
-    private authLogic: InteractiveAuth;
+    private readonly authLogic: InteractiveAuth;
     private readonly intervalId: number = null;
     private readonly stageComponent = createRef<IStageComponent>();
 
@@ -163,46 +163,6 @@ export default class InteractiveAuthComponent extends React.Component<IProps, IS
             clearInterval(this.intervalId);
         }
     }
-
-    // todo clean this up. Is it the best way to do things ?
-/*    UNSAFE_componentWillReceiveProps(newProps) {
-        if (newProps.matrixClient === this.props.matrixClient) return;
-
-        console.log('InteractiveAuth : change of matrixClient, recreating authLogic', newProps.matrixClient.getHomeserverUrl());
-        this.authLogic = new InteractiveAuth({
-            authData: this.props.authData,
-            doRequest: this.requestCallback,
-            busyChanged: this.onBusyChanged,
-            inputs: this.props.inputs,
-            stateUpdated: this.authStateUpdated,
-            matrixClient: this.props.matrixClient,
-            sessionId: this.props.sessionId,
-            clientSecret: this.props.clientSecret,
-            emailSid: this.props.emailSid,
-            requestEmailToken: this.requestEmailToken,
-        });
-
-        // Start off the authLogic, so that it gets the sessionId from the server.
-        this.authLogic.attemptAuth().then((result) => {
-            const extra = {
-                emailSid: this.authLogic.getEmailSid(),
-                clientSecret: this.authLogic.getClientSecret(),
-            };
-            this.props.onAuthFinished(true, result, extra);
-        }).catch((error) => {
-            this.props.onAuthFinished(false, error);
-            logger.error("Error during user-interactive auth:", error);
-            if (this.unmounted) {
-                return;
-            }
-
-            const msg = error.message || error.toString();
-            this.setState({
-                errorText: msg,
-                errorCode: error.errcode,
-            });
-        });
-    }*/
 
     private requestEmailToken = async (
         email: string,
