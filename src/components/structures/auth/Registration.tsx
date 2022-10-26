@@ -275,7 +275,6 @@ export default class Registration extends React.Component<IProps, IState> {
     }
 
     private onFormSubmit = async (formVals: Record<string, string>): Promise<void> => {
-        // todo group the two TchapUtils functions into one, they are always used together.
         const server = await TchapUtils.fetchHomeserverForEmail(formVals.email);
         const validatedServerConfig = TchapUtils.makeValidatedServerConfig(server);
         // Note : onServerConfigChange triggers a state change at the matrixChat level. All the children are rerendered.
