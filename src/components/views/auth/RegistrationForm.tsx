@@ -554,15 +554,17 @@ export default class RegistrationForm extends React.PureComponent<IProps, IState
                         { this.renderUsername() }
                     </div>
                     end :TCHAP: */}
-                    <div className="mx_AuthBody_fieldRow">
-                        { this.renderPassword() }
-                        { this.renderPasswordConfirm() }
-                    </div>
+                    { /** :TCHAP: switch fields : email first, password under */}
                     <div className="mx_AuthBody_fieldRow">
                         { this.renderEmail() }
                         { this.renderPhoneNumber() }
                     </div>
-                    { emailHelperText }
+                    <div className="mx_AuthBody_fieldRow">
+                        { this.renderPassword() }
+                        { this.renderPasswordConfirm() }
+                    </div>
+                    { /* end :TCHAP: */}
+                    { /** :TCHAP: remove helper text, adds confusion since email=username in tchap. // emailHelperText */ }
                     { registerButton }
                 </form>
             </div>
