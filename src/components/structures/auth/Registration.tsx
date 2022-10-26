@@ -274,6 +274,16 @@ export default class Registration extends React.Component<IProps, IState> {
         }
     }
 
+    /**
+     * @returns {MatrixClient}
+     */
+    private createTemporaryClient(hsUrl, isUrl): MatrixClient {
+        return createClient({
+            baseUrl: hsUrl,
+            idBaseUrl: isUrl,
+        });
+    }
+
     private onFormSubmit = async (formVals: Record<string, string>): Promise<void> => {
         // todo group the two TchapUtils functions into one, they are always used together.
         const server = await TchapUtils.fetchHomeserverForEmail(formVals.email);
@@ -286,6 +296,8 @@ export default class Registration extends React.Component<IProps, IState> {
             busy: true,
             formVals,
             doingUIAuth: true,
+            matrixClient: this.createTemporaryClient(validatedServerConfig.hsUrl, validatedServerConfig.isUrl),
+            // todo try also MatrixClientPeg.get(), but I don't know which value will be used, before or after state change ?
         });
     };
 

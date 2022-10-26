@@ -165,7 +165,7 @@ export default class InteractiveAuthComponent extends React.Component<IProps, IS
     }
 
     // todo clean this up. Is it the best way to do things ?
-    UNSAFE_componentWillReceiveProps(newProps) {
+/*    UNSAFE_componentWillReceiveProps(newProps) {
         if (newProps.matrixClient === this.props.matrixClient) return;
 
         console.log('InteractiveAuth : change of matrixClient, recreating authLogic', newProps.matrixClient.getHomeserverUrl());
@@ -202,7 +202,7 @@ export default class InteractiveAuthComponent extends React.Component<IProps, IS
                 errorCode: error.errcode,
             });
         });
-    }
+    }*/
 
     private requestEmailToken = async (
         email: string,
