@@ -306,7 +306,10 @@ export default class Registration extends React.Component<IProps, IState> {
             emailAddress,
             clientSecret,
             sendAttempt,
-            this.props.makeRegistrationUrl({
+            // :TCHAP: replace with custom registrationUrl, see TchapUtils.makeTchapRegistrationUrl for info.
+            // this.props.makeRegistrationUrl({
+            TchapUtils.makeTchapRegistrationUrl({
+            // end :TCHAP:
                 client_secret: clientSecret,
                 hs_url: this.state.matrixClient.getHomeserverUrl(),
                 is_url: this.state.matrixClient.getIdentityServerUrl(),
@@ -511,7 +514,7 @@ export default class Registration extends React.Component<IProps, IState> {
                 sessionId={this.props.sessionId}
                 clientSecret={this.props.clientSecret}
                 emailSid={this.props.idSid}
-                poll={true}
+                poll={/*true :TCHAP: polling results in M_THREEPID_IN_USE when account is created. Until we solve it, we disable polling. */ false}
             />;
         } else if (!this.state.matrixClient && !this.state.busy) {
             return null;
