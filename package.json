@@ -1,11 +1,12 @@
 {
-    "name": "matrix-react-sdk",
-    "version": "3.95.0",
-    "description": "SDK for matrix.org using React",
-    "author": "matrix.org",
+    "name": "matrix-react-sdk-tchap",
+    "version": "0.0.0",
+    "version-matrix": "3.95.0",
+    "description": "SDK for matrix.org using React for Tchap",
+    "author": "DINUM",
     "repository": {
         "type": "git",
-        "url": "https://github.com/matrix-org/matrix-react-sdk"
+        "url": "https://github.com/tchapgouv/matrix-react-sdk-tchap"
     },
     "license": "Apache-2.0",
     "files": [
