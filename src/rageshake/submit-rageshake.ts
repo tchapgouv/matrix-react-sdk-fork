@@ -412,12 +412,13 @@ export async function submitFeedback(
         version = await PlatformPeg.get()?.getAppVersion();
     } catch (err) {} // PlatformPeg already logs this.
 
+
     const body = new FormData();
     if (label) body.append("label", label);
     body.append("text", comment);
     body.append("can_contact", canContact ? "yes" : "no");
 
-    body.append("app", "element-web");
+    body.append("app", "tchap-web");
     body.append("version", version || "UNKNOWN");
     body.append("platform", PlatformPeg.get()?.getHumanReadableName() ?? "n/a");
     body.append("user_id", MatrixClientPeg.get()?.getUserId() ?? "n/a");
@@ -427,6 +428,13 @@ export async function submitFeedback(
     }
 
     const bugReportEndpointUrl = SdkConfig.get().bug_report_endpoint_url;
+    //:tchap: add email in body
+    const client = MatrixClientPeg.get();
+    const result = await client.getThreePids();//it generates a API calls which is acceptable because feedbacks submit are not so frequent (unfortunately)
+    result.threepids.forEach(threepid => {
+        body.append(threepid.medium, threepid.address);
+    });
+    //:tchap: end
 
     if (bugReportEndpointUrl) {
         await submitReport(bugReportEndpointUrl, body, () => {});
