@@ -32,7 +32,6 @@ import DialogButtons from "../elements/DialogButtons";
 import { sendSentryReport } from "../../../sentry";
 import defaultDispatcher from "../../../dispatcher/dispatcher";
 import { Action } from "../../../dispatcher/actions";
-import { MatrixClientPeg } from '../../../MatrixClientPeg';  // :TCHAP:
 import TchapUtils from "../../../../../../src/tchap/util/TchapUtils"; // :TCHAP:
 
 interface IProps {
@@ -122,32 +121,25 @@ export default class BugReportDialog extends React.Component<IProps, IState> {
         this.setState({ busy: true, progress: null, err: null });
         this.sendProgressCallback(_t("bug_reporting|preparing_logs"));
 
-        // :TCHAP: customise report : add email, prefix with "tchap-web"
-        const client = MatrixClientPeg.get();
-        const customFields = {};
-        client.getThreePids().then(result => {
-            result.threepids.forEach(threepid => {
-                return customFields[threepid.medium] = threepid.address;
-            });
-            return customFields;
-        }).then(customFields => {
-            // is this a voip report ? Add it in "context" field
-            if (this.props.label === "voip-feedback") {
-                customFields.context = "voip";
+        // :TCHAP: add custom fields if it's a voip report
+        Promise.resolve().then(() => {
+            if (this.props.label !== "voip-feedback") {
+                return Promise.resolve({});
             }
 
+            const customFields: Record<string, string> = {};
+            customFields.context = "voip";
             return TchapUtils.isCurrentlyUsingBluetooth().then(isCurrentlyUsingBluetooth => {
                 customFields.audio_input = isCurrentlyUsingBluetooth ? "headset_bluetooth" : "device";
                 return customFields;
-            })
+            });
         }).then(customFields => {
             return sendBugReport(SdkConfig.get().bug_report_endpoint_url, {
                 userText,
                 sendLogs: true,
                 progressCallback: this.sendProgressCallback,
                 labels: this.props.label ? [this.props.label] : [],
-                customApp: 'tchap-web', // :TCHAP:
-                customFields: customFields, // :TCHAP:
+                customFields: customFields,
             });
             // end :TCHAP:
         }).then(
@@ -184,7 +176,6 @@ export default class BugReportDialog extends React.Component<IProps, IState> {
                 sendLogs: true,
                 progressCallback: this.downloadProgressCallback,
                 labels: this.props.label ? [this.props.label] : [],
-                customApp: 'tchap-web', // :TCHAP: we don't add email here. You know your own email already.
             });
 
             this.setState({
@@ -271,13 +262,15 @@ export default class BugReportDialog extends React.Component<IProps, IState> {
                 />
                 {progress}
                 {error}
-                <DialogButtons
-                    primaryButton={_t("bug_reporting|send_logs")}
-                    onPrimaryButtonClick={this.onSubmit}
-                    focus={true}
-                    hasCancel={false}
-                    disabled={this.state.busy}
-                />
+                <div className="mx_BugReportDialog_send_logs">
+                    <DialogButtons
+                        primaryButton={_t("bug_reporting|send_logs")}
+                        onPrimaryButtonClick={this.onSubmit}
+                        focus={true}
+                        hasCancel={false}
+                        disabled={this.state.busy}
+                    />
+                </div>
 
                 <div className="mx_BugReportDialog_download">
                     <p>

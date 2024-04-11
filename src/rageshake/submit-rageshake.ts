@@ -102,7 +102,11 @@ async function collectBaseInformation(body: FormData, opts: IOpts): Promise<void
     const touchInput = matchesMediaQuery("(pointer: coarse)");
 
     body.append("text", opts.userText || "User did not supply any additional text.");
+    /* :TCHAP: rename app - for bugreport rageshakes
     body.append("app", opts.customApp || "element-web");
+    */
+    body.append("app", "tchap-web");
+    // end :TCHAP:
     body.append("version", version ?? "UNKNOWN");
     body.append("user_agent", userAgent);
     body.append("installed_pwa", installedPWA);
@@ -128,6 +132,10 @@ async function collectClientInfo(client: MatrixClient, body: FormData): Promise<
         await collectCryptoInfo(cryptoApi, body);
         await collectRecoveryInfo(client, cryptoApi, body);
     }
+
+    // :TCHAP: add user email - for bugreport rageshakes
+    await collectUserEmail(client, body);
+    // end :TCHAP:
 
     await collectSynapseSpecific(client, body);
 }
@@ -316,6 +324,16 @@ async function collectLogs(
         body.append("compressed-log", new Blob([buf]), entry.id);
     }
 }
+
+// :TCHAP:
+async function collectUserEmail(client: MatrixClient, body: FormData): Promise<void> {
+    const result = await client.getThreePids(); //it generates a API calls which is acceptable because feedbacks submit are not so frequent (unfortunately)
+    result.threepids.forEach(threepid => {
+        body.append(threepid.medium, threepid.address);
+    });
+}
+// end :TCHAP:
+
 /**
  * Send a bug report.
  *
@@ -412,13 +430,20 @@ export async function submitFeedback(
         version = await PlatformPeg.get()?.getAppVersion();
     } catch (err) {} // PlatformPeg already logs this.
 
-
     const body = new FormData();
     if (label) body.append("label", label);
     body.append("text", comment);
     body.append("can_contact", canContact ? "yes" : "no");
 
+    /* :TCHAP: rename app and add email - for feedback rageshakes
+    body.append("app", "element-web");
+    */
     body.append("app", "tchap-web");
+    const client = MatrixClientPeg.get();
+    if(client) {
+        await collectUserEmail(client, body);
+    }
+    // end :TCHAP:
     body.append("version", version || "UNKNOWN");
     body.append("platform", PlatformPeg.get()?.getHumanReadableName() ?? "n/a");
     body.append("user_id", MatrixClientPeg.get()?.getUserId() ?? "n/a");
@@ -428,13 +453,6 @@ export async function submitFeedback(
     }
 
     const bugReportEndpointUrl = SdkConfig.get().bug_report_endpoint_url;
-    //:tchap: add email in body
-    const client = MatrixClientPeg.get();
-    const result = await client.getThreePids();//it generates a API calls which is acceptable because feedbacks submit are not so frequent (unfortunately)
-    result.threepids.forEach(threepid => {
-        body.append(threepid.medium, threepid.address);
-    });
-    //:tchap: end
 
     if (bugReportEndpointUrl) {
         await submitReport(bugReportEndpointUrl, body, () => {});
