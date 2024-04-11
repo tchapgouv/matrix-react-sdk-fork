@@ -23,7 +23,7 @@ test.describe("Login", () => {
         test.use({ startHomeserverOpts: "consent" });
 
         const username = "user1234";
-        const password = "p4s5W0rD";
+        const password = ""; // :TCHAP: remove pwd to pass git guardian
 
         test.beforeEach(async ({ page, homeserver }) => {
             await homeserver.registerUser(username, password);
