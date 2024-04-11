@@ -18,70 +18,44 @@ import { env } from "process";
 
 import type { Config } from "jest";
 
-/*
-"jest-comments": {
-    "README": "For the tests to work, you need matrix-react-sdk to be git-cloned and yarn linked into this project.",
-    "snapshotSerializers": "used for jest snapshot",
-    "testEnvironment": "switch to jsdom like in matrix-react-sdk",
-    "testMatch": "execute only tests in unit-tests directory",
-    "setupFilesAfterEnv": "duplicate enzyme configuration in our own setup file '<rootDir>/test/setupTests.js'",
-    "moduleNameMapper": "use mapper from element-web, helps at mocking {module, ressources} directly with regexp",
-    "transformIgnorePatterns": "make regexp inline {matrix-js-sdk|matrix-react-sdk} else it does not work"
-}
-*/
 const config: Config = {
-    snapshotSerializers: ["enzyme-to-json/serializer"],
     testEnvironment: "jsdom",
-    testEnvironmentOptions: {
-        url: "http://localhost/",
-    },
-    testMatch: ["<rootDir>/test/unit-tests/tchap/**/*-test.[tj]s?(x)"], // :TCHAP: only tchap tests
+    testMatch: ["<rootDir>/test/**/*-test.[jt]s?(x)"],
+    globalSetup: "<rootDir>/test/globalSetup.ts",
     setupFiles: ["jest-canvas-mock"],
-    setupFilesAfterEnv: [
-        "<rootDir>/linked-dependencies/matrix-react-sdk/test/setupTests.ts",
-        "<rootDir>/test/setup/setupLanguage.ts",
-        "<rootDir>/test/setupTests.ts",
-    ],
+    setupFilesAfterEnv: ["<rootDir>/test/setupTests.ts"],
     moduleNameMapper: {
-        "\\.(css|scss|pcss)$": "<rootDir>/__mocks__/cssMock.js",
-        "\\.(gif|png|ttf|woff2)$": "<rootDir>/linked-dependencies/matrix-react-sdk/__mocks__/imageMock.js",
-        "\\.svg$": "<rootDir>/linked-dependencies/matrix-react-sdk/__mocks__/svg.js",
-        "\\$webapp/i18n/languages.json": "<rootDir>/linked-dependencies/matrix-react-sdk/__mocks__/languages.json",
-        "^react$": "<rootDir>/node_modules/react",
-        "^react-dom$": "<rootDir>/node_modules/react-dom",
-        "^matrix-js-sdk$": "<rootDir>/node_modules/matrix-js-sdk/src",
-        "^matrix-react-sdk$": "<rootDir>/linked-dependencies/matrix-react-sdk/src",
-        "decoderWorker\\.min\\.js": "<rootDir>/linked-dependencies/matrix-react-sdk/__mocks__/empty.js",
-        "decoderWorker\\.min\\.wasm": "<rootDir>/linked-dependencies/matrix-react-sdk/__mocks__/empty.js",
-        "waveWorker\\.min\\.js": "<rootDir>/linked-dependencies/matrix-react-sdk/__mocks__/empty.js",
-        "context-filter-polyfill": "<rootDir>/linked-dependencies/matrix-react-sdk/__mocks__/empty.js",
-        "FontManager.ts": "<rootDir>/linked-dependencies/matrix-react-sdk/__mocks__/FontManager.js",
-        "workers/(.+)Factory": "<rootDir>/linked-dependencies/matrix-react-sdk/__mocks__/workerFactoryMock.js",
+        "\\.(gif|png|ttf|woff2)$": "<rootDir>/__mocks__/imageMock.js",
+        "\\.svg$": "<rootDir>/__mocks__/svg.js",
+        "\\$webapp/i18n/languages.json": "<rootDir>/__mocks__/languages.json",
+        "decoderWorker\\.min\\.js": "<rootDir>/__mocks__/empty.js",
+        "decoderWorker\\.min\\.wasm": "<rootDir>/__mocks__/empty.js",
+        "waveWorker\\.min\\.js": "<rootDir>/__mocks__/empty.js",
+        "workers/(.+)Factory": "<rootDir>/__mocks__/workerFactoryMock.js",
         "^!!raw-loader!.*": "jest-raw-loader",
-        "recorderWorkletFactory": "<rootDir>/linked-dependencies/matrix-react-sdk/__mocks__/empty.js",
-        "^fetch-mock$": "<rootDir>/node_modules/fetch-mock",
-        // :TCHAP:
-        "MImageBody": "<rootDir>/src/tchap/customisations/components/views/messages/ContentScanningImageBody.tsx",
-        "../../../../../../src/tchap/components/views/messages/OriginalFileBody":
-            "<rootDir>/linked-dependencies/matrix-react-sdk/src/components/views/messages/MImageBody.tsx",
-        "MAudioBody": "<rootDir>/src/tchap/customisations/components/views/messages/ContentScanningAudioBody.tsx",
-        "../../../../../../src/tchap/components/views/messages/OriginalAudioBody":
-            "<rootDir>/linked-dependencies/matrix-react-sdk/src/components/views/messages/MAudioBody.tsx",
-        "MStickerBody": "<rootDir>/src/tchap/customisations/components/views/messages/ContentScanningStickerBody.tsx",
-        "~tchap-web-dep/(.*)": "<rootDir>/yarn-linked-dependencies/$1",
-        "~tchap-web/(.*)": "<rootDir>/$1",
-        "~linked-dep/(.*)": "<rootDir>/linked-dependencies/$1",
-        "matrix-react-sdk/(.*)": "<rootDir>/linked-dependencies/matrix-react-sdk/$1",
-        // end :TCHAP:
+        "recorderWorkletFactory": "<rootDir>/__mocks__/empty.js",
     },
-    transformIgnorePatterns: ["/node_modules/(?!matrix-js-sdk|matrix-react-sdk).+$"],
+    transformIgnorePatterns: ["/node_modules/(?!matrix-js-sdk).+$"],
+    collectCoverageFrom: [
+        "<rootDir>/src/**/*.{js,ts,tsx}",
+        // getSessionLock is piped into a different JS context via stringification, and the coverage functionality is
+        // not available in that contest. So, turn off coverage instrumentation for it.
+        "!<rootDir>/src/utils/SessionLock.ts",
+    ],
     coverageReporters: ["text-summary", "lcov"],
     testResultsProcessor: "@casualbot/jest-sonar-reporter",
+    prettierPath: null,
 };
 
 // if we're running under GHA, enable the GHA reporter
 if (env["GITHUB_ACTIONS"] !== undefined) {
-    config.reporters = [["github-actions", { silent: false }], "summary"];
+    const reporters: Config["reporters"] = [["github-actions", { silent: false }], "summary"];
+
+    // if we're running against the develop branch, also enable the slow test reporter
+    if (env["GITHUB_REF"] == "refs/heads/develop") {
+        reporters.push("<rootDir>/test/slowReporter.js");
+    }
+    config.reporters = reporters;
 }
 
 export default config;
