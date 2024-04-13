@@ -13,41 +13,13 @@
         "declaration": true,
         "jsx": "react",
         "lib": ["es2021", "dom", "dom.iterable"],
-        "strict": true,
-        /* :TCHAP: */
-        "paths": {
-            "~tchap-web/*": ["./*"],
-            "~tchap-web-dep/*": ["./yarn-linked-dependencies/*"],
-            "~linked-dep/*": ["./linked-dependencies/*"],
-            "matrix-react-sdk/*": ["./linked-dependencies/matrix-react-sdk/*"]
-        },
-        "types": ["node", "jest", "@testing-library/jest-dom"]
-        /* end :TCHAP: */
+        "strict": true
     },
     "include": [
         "./node_modules/matrix-js-sdk/src/@types/*.d.ts",
-        /* :TCHAP: */
-        // "./node_modules/matrix-react-sdk/src/@types/react.d.ts",
-        // "./node_modules/matrix-react-sdk/src/@types/diff-dom.d.ts",
-        // "./node_modules/matrix-react-sdk/src/@types/opus-recorder.d.ts",
-        // "./node_modules/matrix-react-sdk/src/@types/png-chunks-extract.d.ts",
-        // "./node_modules/matrix-react-sdk/src/@types/sanitize-html.d.ts",
-        "./linked-dependencies/matrix-react-sdk/src/@types/react.d.ts",
-        "./linked-dependencies/matrix-react-sdk/src/@types/diff-dom.d.ts",
-        "./linked-dependencies/matrix-react-sdk/src/@types/opus-recorder.d.ts",
-        "./linked-dependencies/matrix-react-sdk/src/@types/png-chunks-extract.d.ts",
-        "./linked-dependencies/matrix-react-sdk/src/@types/sanitize-html.d.ts",
-        /* end :TCHAP: */
         "./src/**/*.ts",
         "./src/**/*.tsx",
         "./test/**/*.ts",
-        "./test/**/*.tsx",
-        "./scripts/*.ts"
-    ],
-    "ts-node": {
-        "files": true,
-        "moduleTypes": {
-            "*": "cjs"
-        }
-    }
+        "./test/**/*.tsx"
+    ]
 }
