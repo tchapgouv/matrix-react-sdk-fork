@@ -136,8 +136,9 @@ export const ThreadMessagePreview: React.FC<IPreviewProps> = ({ thread, showDisp
             {lastReply.isDecryptionFailure() ? (
                 <div
                     className="mx_ThreadSummary_content mx_DecryptionFailureBody"
-                    title={_t("threads|unable_to_decrypt")}
+                    title={_t("timeline|decryption_failure|unable_to_decrypt")}
                 >
+<<<<<<< HEAD
                     { /* :TCHAP: better-text-for-locked-messages - <span className="mx_ThreadSummary_message-preview">{_t("threads|unable_to_decrypt")}</span>*/}
                     <span className="mx_ThreadSummary_message-preview">
                         {_t("threads|unable_to_decrypt_with_info_message", {},
@@ -152,6 +153,11 @@ export const ThreadMessagePreview: React.FC<IPreviewProps> = ({ thread, showDisp
                     </span>
                     {/** end :TCHAP: */}
 
+=======
+                    <span className="mx_ThreadSummary_message-preview">
+                        {_t("timeline|decryption_failure|unable_to_decrypt")}
+                    </span>
+>>>>>>> v3.100.0-rc.0
                 </div>
             ) : (
                 <div className="mx_ThreadSummary_content" title={preview}>
