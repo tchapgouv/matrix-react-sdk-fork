@@ -88,9 +88,6 @@ type Props<T extends keyof JSX.IntrinsicElements> = DynamicHtmlElementProps<T> &
     /**
      * Event handler for button activation. Should be implemented exactly like a normal `onClick` handler.
      */
-<<<<<<< HEAD
-    onClick?: ((e: ButtonEvent) => void | Promise<void>) | null;
-=======
     onClick: ((e: ButtonEvent) => void | Promise<void>) | null;
     /**
      * The tooltip to show on hover or focus.
@@ -109,7 +106,6 @@ type Props<T extends keyof JSX.IntrinsicElements> = DynamicHtmlElementProps<T> &
      * Callback for when the tooltip is opened or closed.
      */
     onTooltipOpenChange?: TooltipProps["onOpenChange"];
->>>>>>> v3.100.0-rc.0
 };
 
 /**

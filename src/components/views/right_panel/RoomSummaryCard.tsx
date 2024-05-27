@@ -483,12 +483,9 @@ const RoomSummaryCard: React.FC<IProps> = ({ room, permalinkCreator, onClose, on
                     </Badge>
                 )}
             </Flex>
-<<<<<<< HEAD
             */}
-=======
 
             <RoomTopic room={room} />
->>>>>>> v3.100.0-rc.0
         </header>
     );
 

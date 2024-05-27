@@ -20,27 +20,8 @@ import { DecryptionFailureCode } from "matrix-js-sdk/src/crypto-api";
 
 import { _t } from "../../../languageHandler";
 import { IBodyProps } from "./IBodyProps";
-<<<<<<< HEAD
 import TchapUrls from "../../../../../../src/tchap/util/TchapUrls"; // :TCHAP: better-text-for-locked-messages
 import ExternalLink from "../elements/ExternalLink"; // :TCHAP: better-text-for-locked-messages
-
-function getErrorMessage(mxEvent?: MatrixEvent): string {
-    return mxEvent?.isEncryptedDisabledForUnverifiedDevices
-        ? _t("timeline|decryption_failure_blocked")
-        // :TCHAP: better-text-for-locked-messages - : _t("threads|unable_to_decrypt");
-        : _t(
-            "threads|unable_to_decrypt_with_info_message",
-            {},
-            {
-                a: (sub) => (
-                    <ExternalLink href={TchapUrls.lockedMessagesPage}>
-                        {sub}
-                    </ExternalLink>
-                ),
-            },
-        );
-    // end :TCHAP:
-=======
 import { LocalDeviceVerificationStateContext } from "../../../contexts/LocalDeviceVerificationStateContext";
 
 function getErrorMessage(mxEvent: MatrixEvent, isVerified: boolean | undefined): string {
@@ -61,8 +42,19 @@ function getErrorMessage(mxEvent: MatrixEvent, isVerified: boolean | undefined):
         case DecryptionFailureCode.HISTORICAL_MESSAGE_USER_NOT_JOINED:
             return _t("timeline|decryption_failure|historical_event_user_not_joined");
     }
-    return _t("timeline|decryption_failure|unable_to_decrypt");
->>>>>>> v3.100.0-rc.0
+     // :TCHAP: better-text-for-locked-messages : return _t("timeline|decryption_failure|unable_to_decrypt");
+    return _t(
+            "threads|unable_to_decrypt_with_info_message",
+            {},
+            {
+                a: (sub) => (
+                    <ExternalLink href={TchapUrls.lockedMessagesPage}>
+                        {sub}
+                    </ExternalLink>
+                ),
+            },
+        );
+    // end :TCHAP:
 }
 
 // A placeholder element for messages that could not be decrypted
