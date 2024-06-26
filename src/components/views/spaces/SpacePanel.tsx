@@ -71,12 +71,9 @@ import { shouldShowComponent } from "../../../customisations/helpers/UIComponent
 import { UIComponent } from "../../../settings/UIFeature";
 import { ThreadsActivityCentre } from "./threads-activity-centre/";
 import AccessibleButton from "../elements/AccessibleButton";
-<<<<<<< HEAD
 import TchapUIFeature from "../../../../../../src/tchap/util/TchapUIFeature"; // :TCHAP: extend-remove-thread-buttons
 import TchapGaufre from "../../../../../../src/tchap/components/views/common/Gaufre";
-=======
 import { KeyboardShortcut } from "../settings/KeyboardShortcut";
->>>>>>> v3.101.0
 
 const useSpaces = (): [Room[], MetaSpace[], Room[], SpaceKey] => {
     const invites = useEventEmitterState<Room[]>(SpaceStore.instance, UPDATE_INVITED_SPACES, () => {
