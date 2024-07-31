@@ -33,11 +33,8 @@ import SettingsTab from "../SettingsTab";
 import { SettingsSection } from "../../shared/SettingsSection";
 import SettingsSubsection, { SettingsSubsectionText } from "../../shared/SettingsSubsection";
 import { SDKContext } from "../../../../../contexts/SDKContext";
-<<<<<<< HEAD
 import TchapUIFeature from '../../../../../../../../src/tchap/util/TchapUIFeature'; // :TCHAP: hide-discovery-email-phone-settings
-=======
 import UserPersonalInfoSettings from "../../UserPersonalInfoSettings";
->>>>>>> v3.104.0
 
 interface IProps {
     closeSettingsFn: () => void;
@@ -153,54 +150,6 @@ export default class GeneralUserSettingsTab extends React.Component<IProps, ISta
     private renderAccountSection(): JSX.Element | undefined {
         if (!this.state.canChangePassword) return undefined;
 
-<<<<<<< HEAD
-        // :TCHAP: hide-discovery-email-phone-settings - no need for users to view/edit their email or phone (TchapUIFeature.showEmailPhoneDiscoverySettings)
-        if (TchapUIFeature.showEmailPhoneDiscoverySettings &&
-            SettingsStore.getValue(UIFeature.ThirdPartyID)) {
-            const emails = this.state.loading3pids ? (
-                <InlineSpinner />
-            ) : (
-                <AccountEmailAddresses
-                    emails={this.state.emails}
-                    onEmailsChange={this.onEmailsChange}
-                    disabled={!this.state.canMake3pidChanges}
-                />
-            );
-            const msisdns = this.state.loading3pids ? (
-                <InlineSpinner />
-            ) : (
-                <AccountPhoneNumbers
-                    msisdns={this.state.msisdns}
-                    onMsisdnsChange={this.onMsisdnsChange}
-                    disabled={!this.state.canMake3pidChanges}
-                />
-            );
-            threepidSection = (
-                <>
-                    <SettingsSubsection
-                        heading={_t("settings|general|emails_heading")}
-                        stretchContent
-                        data-testid="mx_AccountEmailAddresses"
-                    >
-                        {emails}
-                    </SettingsSubsection>
-
-                    <SettingsSubsection
-                        heading={_t("settings|general|msisdns_heading")}
-                        stretchContent
-                        data-testid="mx_AccountPhoneNumbers"
-                    >
-                        {msisdns}
-                    </SettingsSubsection>
-                </>
-            );
-        }
-
-        let passwordChangeSection: ReactNode = null;
-        if (this.state.canChangePassword) {
-            passwordChangeSection = (
-                <>
-=======
         return (
             <>
                 <SettingsSubsection
@@ -208,7 +157,6 @@ export default class GeneralUserSettingsTab extends React.Component<IProps, ISta
                     stretchContent
                     data-testid="accountSection"
                 >
->>>>>>> v3.104.0
                     <SettingsSubsectionText>{_t("settings|general|password_change_section")}</SettingsSubsectionText>
                     <ChangePassword
                         className="mx_GeneralUserSettingsTab_section--account_changePassword"
@@ -246,35 +194,6 @@ export default class GeneralUserSettingsTab extends React.Component<IProps, ISta
             accountManagementSection = this.renderManagementSection();
         }
 
-<<<<<<< HEAD
-        let discoverySection;
-        // :TCHAP: no need for users to edit the discovery section (TchapUIFeature.showEmailPhoneDiscoverySettings)
-        if (TchapUIFeature.showEmailPhoneDiscoverySettings && SettingsStore.getValue(UIFeature.IdentityServer)) {
-            const discoWarning = this.state.requiredPolicyInfo.hasTerms ? (
-                <WarningIcon
-                    className="mx_GeneralUserSettingsTab_warningIcon"
-                    width="18"
-                    height="18"
-                    // override icon default values
-                    aria-hidden={false}
-                    aria-label={_t("common|warning")}
-                />
-            ) : null;
-            const heading = (
-                <Heading size="2">
-                    {discoWarning}
-                    {_t("settings|general|discovery_section")}
-                </Heading>
-            );
-            discoverySection = (
-                <SettingsSection heading={heading} data-testid="discoverySection">
-                    {this.renderDiscoverySection()}
-                </SettingsSection>
-            );
-        }
-
-=======
->>>>>>> v3.104.0
         return (
             <SettingsTab data-testid="mx_GeneralUserSettingsTab">
                 <SettingsSection>

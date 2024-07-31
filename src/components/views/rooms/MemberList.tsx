@@ -55,11 +55,8 @@ import { SDKContext } from "../../../contexts/SDKContext";
 import { canInviteTo } from "../../../utils/room/canInviteTo";
 import { inviteToRoom } from "../../../utils/room/inviteToRoom";
 import { Action } from "../../../dispatcher/actions";
-<<<<<<< HEAD
 import { SpaceScopeHeader } from "./SpaceScopeHeader";
 import TchapExportMembersButton from "../../../../../../src/tchap/components/views/rooms/TchapExportMembersButton"; // :TCHAP: export-room-members
-=======
->>>>>>> v3.104.0
 
 const INITIAL_LOAD_NUM_MEMBERS = 30;
 const INITIAL_LOAD_NUM_INVITED = 5;

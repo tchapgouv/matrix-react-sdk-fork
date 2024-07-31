@@ -257,8 +257,18 @@ export default function RoomHeader({
                     closeLabel={_t("action|ok")}
                     placement="bottom"
                 >
-<<<<<<< HEAD
-                    {/* :TCHAP: customize-room-header-bar - RoomAvatar -> DecoratedRoomAvatar
+                    <button
+                        aria-label={_t("right_panel|room_summary_card|title")}
+                        tabIndex={0}
+                        onClick={() => {
+                            if (isReleaseAnnouncementOpen) {
+                                ReleaseAnnouncementStore.instance.nextReleaseAnnouncement();
+                            }
+                            RightPanelStore.instance.showOrHidePanel(RightPanelPhases.RoomSummary);
+                        }}
+                        className="mx_RoomHeader_infoWrapper"
+                    >
+                        {/* :TCHAP: customize-room-header-bar - RoomAvatar -> DecoratedRoomAvatar
                     <RoomAvatar room={room} size="40px" />
                     */}
                     <DecoratedRoomAvatar room={room} size="40px" />
@@ -318,66 +328,6 @@ export default function RoomHeader({
                             */}
                         </BodyText>
                         {roomTopic && (
-=======
-                    <button
-                        aria-label={_t("right_panel|room_summary_card|title")}
-                        tabIndex={0}
-                        onClick={() => {
-                            if (isReleaseAnnouncementOpen) {
-                                ReleaseAnnouncementStore.instance.nextReleaseAnnouncement();
-                            }
-                            RightPanelStore.instance.showOrHidePanel(RightPanelPhases.RoomSummary);
-                        }}
-                        className="mx_RoomHeader_infoWrapper"
-                    >
-                        <RoomAvatar room={room} size="40px" />
-                        <Box flex="1" className="mx_RoomHeader_info">
->>>>>>> v3.104.0
-                            <BodyText
-                                as="div"
-                                size="lg"
-                                weight="semibold"
-                                dir="auto"
-                                role="heading"
-                                aria-level={1}
-                                className="mx_RoomHeader_heading"
-                            >
-                                <span className="mx_RoomHeader_truncated mx_lineClamp">{roomName}</span>
-
-                                {!isDirectMessage && roomState.getJoinRule() === JoinRule.Public && (
-                                    <Tooltip label={_t("common|public_room")} placement="right">
-                                        <PublicIcon
-                                            width="16px"
-                                            height="16px"
-                                            className="mx_RoomHeader_icon text-secondary"
-                                            aria-label={_t("common|public_room")}
-                                        />
-                                    </Tooltip>
-                                )}
-
-                                {isDirectMessage && e2eStatus === E2EStatus.Verified && (
-                                    <Tooltip label={_t("common|verified")} placement="right">
-                                        <VerifiedIcon
-                                            width="16px"
-                                            height="16px"
-                                            className="mx_RoomHeader_icon mx_Verified"
-                                            aria-label={_t("common|verified")}
-                                        />
-                                    </Tooltip>
-                                )}
-
-                                {isDirectMessage && e2eStatus === E2EStatus.Warning && (
-                                    <Tooltip label={_t("room|header_untrusted_label")} placement="right">
-                                        <ErrorIcon
-                                            width="16px"
-                                            height="16px"
-                                            className="mx_RoomHeader_icon mx_Untrusted"
-                                            aria-label={_t("room|header_untrusted_label")}
-                                        />
-                                    </Tooltip>
-                                )}
-                            </BodyText>
-                            {roomTopic && (
                                 <BodyText
                                     as="div"
                                     size="sm"
@@ -431,9 +381,6 @@ export default function RoomHeader({
                         </>
                     )}
 
-<<<<<<< HEAD
-                    {/* :TCHAP: extend-remove-thread-buttons <Tooltip label={_t("common|threads")}>
-=======
                     <Tooltip label={_t("right_panel|room_summary_card|title")}>
                         <IconButton
                             onClick={(evt) => {
@@ -445,8 +392,9 @@ export default function RoomHeader({
                             <RoomInfoIcon />
                         </IconButton>
                     </Tooltip>
+
+                    {/* :TCHAP: extend-remove-thread-buttons <Tooltip label={_t("common|threads")}>
                     <Tooltip label={_t("common|threads")}>
->>>>>>> v3.104.0
                         <IconButton
                             indicator={notificationLevelToIndicator(threadNotifications)}
                             onClick={(evt) => {

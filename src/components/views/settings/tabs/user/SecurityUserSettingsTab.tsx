@@ -383,12 +383,9 @@ export default class SecurityUserSettingsTab extends React.Component<IProps, ISt
         return (
             <SettingsTab>
                 {warning}
-<<<<<<< HEAD
                 { /* :TCHAP: change-sections-order-in-security-privacy-settings - move secureBackup and privacySection, and remove eventIndex */ }
                 {secureBackup}
-=======
                 <SetIntegrationManager />
->>>>>>> v3.104.0
                 <SettingsSection heading={_t("settings|security|encryption_section")}>
                     {crossSigning}
                     <CryptographyPanel />

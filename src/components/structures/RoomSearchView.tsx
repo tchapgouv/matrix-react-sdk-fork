@@ -132,37 +132,17 @@ export const RoomSearchView = forwardRef<ScrollPanel, Props>(
                         if (aborted.current) {
                             logger.error("Discarding stale search results");
                             return false;
-<<<<<<< HEAD
-                        },
-                        (error) => {
-                            if (aborted.current) {
-                                logger.error("Discarding stale search results");
-                                return false;
-                            }
-                            logger.error("Search failed", error);
-                            Modal.createDialog(ErrorDialog, {
-                                title: _t("error_dialog|search_failed|title"),
-                                // :TCHAP: error-tchap-is-down - description: error?.message ?? _t("error_dialog|search_failed|server_unavailable"),
-                                description: error?.message ?? Tchapi18nUtils.getServerDownMessage(),
-                            });
-                            return false;
-                        },
-                    )
-                    .finally(() => {
-                        setInProgress(false);
-                    });
-=======
                         }
                         logger.error("Search failed", error);
                         Modal.createDialog(ErrorDialog, {
                             title: _t("error_dialog|search_failed|title"),
-                            description: error?.message ?? _t("error_dialog|search_failed|server_unavailable"),
+                            // :TCHAP: error-tchap-is-down - description: error?.message ?? _t("error_dialog|search_failed|server_unavailable"),
+                            description: error?.message ?? Tchapi18nUtils.getServerDownMessage(),
                         });
                         onUpdate(false, null);
                         return false;
                     },
                 );
->>>>>>> v3.104.0
             },
             [client, term, onUpdate],
         );
