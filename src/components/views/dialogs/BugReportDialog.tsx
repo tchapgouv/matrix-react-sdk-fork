@@ -32,11 +32,8 @@ import DialogButtons from "../elements/DialogButtons";
 import { sendSentryReport } from "../../../sentry";
 import defaultDispatcher from "../../../dispatcher/dispatcher";
 import { Action } from "../../../dispatcher/actions";
-<<<<<<< HEAD
 import TchapUtils from "../../../../../../src/tchap/util/TchapUtils"; // :TCHAP:
-=======
 import { getBrowserSupport } from "../../../SupportedBrowser";
->>>>>>> v3.108.0
 
 interface IProps {
     onFinished: (success: boolean) => void;

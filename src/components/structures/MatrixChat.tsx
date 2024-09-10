@@ -143,11 +143,8 @@ import { checkSessionLockFree, getSessionLock } from "../../utils/SessionLock";
 import { SessionLockStolenView } from "./auth/SessionLockStolenView";
 import { ConfirmSessionLockTheftView } from "./auth/ConfirmSessionLockTheftView";
 import { LoginSplashView } from "./auth/LoginSplashView";
-<<<<<<< HEAD
 import TchapUrls from "../../../../../src/tchap/util/TchapUrls"; // :TCHAP: activate-cross-signing-and-secure-storage-react
-=======
 import { cleanUpDraftsIfRequired } from "../../DraftCleaner";
->>>>>>> v3.108.0
 
 // legacy export
 export { default as Views } from "../../Views";

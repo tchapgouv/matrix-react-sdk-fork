@@ -267,9 +267,10 @@ export default function RoomHeader({
                         }}
                         className="mx_RoomHeader_infoWrapper"
                     >
-<<<<<<< HEAD
-                        {/* :TCHAP: customize-room-header-bar - RoomAvatar -> DecoratedRoomAvatar
-                    <RoomAvatar room={room} size="40px" />
+                    {/* :TCHAP: customize-room-header-bar - RoomAvatar -> DecoratedRoomAvatar
+                    <WithPresenceIndicator room={room} size="8px">
+                        <RoomAvatar room={room} size="40px" oobData={oobData} />
+                    </WithPresenceIndicator>
                     */}
                     <DecoratedRoomAvatar room={room} size="40px" />
                     {/* end :TCHAP: */}
@@ -300,33 +301,6 @@ export default function RoomHeader({
                                 </Tooltip>
                             )}
                             */}
-=======
-                        <WithPresenceIndicator room={room} size="8px">
-                            <RoomAvatar room={room} size="40px" oobData={oobData} />
-                        </WithPresenceIndicator>
-                        <Box flex="1" className="mx_RoomHeader_info">
-                            <BodyText
-                                as="div"
-                                size="lg"
-                                weight="semibold"
-                                dir="auto"
-                                role="heading"
-                                aria-level={1}
-                                className="mx_RoomHeader_heading"
-                            >
-                                <span className="mx_RoomHeader_truncated mx_lineClamp">{roomName}</span>
-
-                                {!isDirectMessage && joinRule === JoinRule.Public && (
-                                    <Tooltip label={_t("common|public_room")} placement="right">
-                                        <PublicIcon
-                                            width="16px"
-                                            height="16px"
-                                            className="mx_RoomHeader_icon text-secondary"
-                                            aria-label={_t("common|public_room")}
-                                        />
-                                    </Tooltip>
-                                )}
->>>>>>> v3.108.0
 
                             {/* :tchap: customize-room-header-bar - do not show e2eStatus
                             {isDirectMessage && e2eStatus === E2EStatus.Verified && (
@@ -341,7 +315,6 @@ export default function RoomHeader({
                             )}
                             */}
 
-<<<<<<< HEAD
                             {/* :tchap: customize-room-header-bar - do not show E2EStatus.Warning
                             {isDirectMessage && e2eStatus === E2EStatus.Warning && (
                                 <Tooltip label={_t("room|header_untrusted_label")} placement="right">
@@ -355,28 +328,6 @@ export default function RoomHeader({
                             )}
                             */}
                         </BodyText>
-                        {roomTopic && (
-                                <BodyText
-                                    as="div"
-                                    size="sm"
-                                    className="mx_RoomHeader_topic mx_RoomHeader_truncated mx_lineClamp"
-                                >
-                                    <Linkify>{roomTopicBody}</Linkify>
-                                </BodyText>
-                            )}
-=======
-                                {isDirectMessage && e2eStatus === E2EStatus.Warning && (
-                                    <Tooltip label={_t("room|header_untrusted_label")} placement="right">
-                                        <ErrorIcon
-                                            width="16px"
-                                            height="16px"
-                                            className="mx_RoomHeader_icon mx_Untrusted"
-                                            aria-label={_t("room|header_untrusted_label")}
-                                        />
-                                    </Tooltip>
-                                )}
-                            </BodyText>
->>>>>>> v3.108.0
                         </Box>
                     </button>
                 </ReleaseAnnouncement>
@@ -405,24 +356,19 @@ export default function RoomHeader({
                         joinCallButton
                     ) : (
                         <>
-<<<<<<< HEAD
                             { /* :TCHAP: customize-room-header-bar - activate video call only if directmessage and if feature is activated on homeserver }
-                            {!isVideoRoom(room) && videoCallButton}
+                            {!isVideoRoom && videoCallButton}
                             */ }
                             {isDirectMessage && TchapUIFeature.isFeatureActiveForHomeserver("feature_video_call") &&
-                              !isVideoRoom(room) && videoCallButton}
+                              !isVideoRoom && videoCallButton}
                             {/* end :TCHAP: */}
 
                             { /* :TCHAP: customize-room-header-bar - activate audio call only if directmessage and if feature is activated on homeserver
                             {!useElementCallExclusively && !isVideoRoom(room) && voiceCallButton}
                             */ }
                             {isDirectMessage && TchapUIFeature.isFeatureActiveForHomeserver("feature_audio_call") &&
-                              !useElementCallExclusively && !isVideoRoom(room) && voiceCallButton}
+                              !useElementCallExclusively && !isVideoRoom && voiceCallButton}
                             {/* end :TCHAP: */}
-=======
-                            {!isVideoRoom && videoCallButton}
-                            {!useElementCallExclusively && !isVideoRoom && voiceCallButton}
->>>>>>> v3.108.0
                         </>
                     )}
 
@@ -438,12 +384,10 @@ export default function RoomHeader({
                         </IconButton>
                     </Tooltip>
 
-<<<<<<< HEAD
-                    {/* :TCHAP: extend-remove-thread-buttons <Tooltip label={_t("common|threads")}>
-=======
                     {showChatButton && <VideoRoomChatButton room={room} />}
 
->>>>>>> v3.108.0
+                    {/* :TCHAP: extend-remove-thread-buttons <Tooltip label={_t("common|threads")}>
+
                     <Tooltip label={_t("common|threads")}>
                         <IconButton
                             indicator={notificationLevelToIndicator(threadNotifications)}

@@ -1,15 +1,9 @@
 {
     "name": "matrix-react-sdk",
-<<<<<<< HEAD
     "version": "0.0.0",
-    "version-matrix": "3.104.0",
+    "version-matrix": "3.108.0",
     "description": "SDK for matrix.org using React for Tchap",
     "author": "DINUM",
-=======
-    "version": "3.108.0",
-    "description": "SDK for matrix.org using React",
-    "author": "matrix.org",
->>>>>>> v3.108.0
     "repository": {
         "type": "git",
         "url": "https://github.com/tchapgouv/matrix-react-sdk-tchap"
@@ -84,12 +78,8 @@
         "@babel/runtime": "^7.12.5",
         "@matrix-org/analytics-events": "^0.24.0",
         "@matrix-org/emojibase-bindings": "^1.1.2",
-<<<<<<< HEAD
-        "@matrix-org/matrix-wysiwyg": "2.37.4",
-        "@matrix-org/olm": "3.2.15",
-=======
         "@matrix-org/matrix-wysiwyg": "2.37.8",
->>>>>>> v3.108.0
+        "@matrix-org/olm": "3.2.15",
         "@matrix-org/react-sdk-module-api": "^2.4.0",
         "@matrix-org/spec": "^1.7.0",
         "@sentry/browser": "^8.0.0",
