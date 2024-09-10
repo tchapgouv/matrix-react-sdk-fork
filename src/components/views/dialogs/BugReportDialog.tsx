@@ -32,7 +32,11 @@ import DialogButtons from "../elements/DialogButtons";
 import { sendSentryReport } from "../../../sentry";
 import defaultDispatcher from "../../../dispatcher/dispatcher";
 import { Action } from "../../../dispatcher/actions";
+<<<<<<< HEAD
 import TchapUtils from "../../../../../../src/tchap/util/TchapUtils"; // :TCHAP:
+=======
+import { getBrowserSupport } from "../../../SupportedBrowser";
+>>>>>>> v3.108.0
 
 interface IProps {
     onFinished: (success: boolean) => void;
@@ -232,7 +236,10 @@ export default class BugReportDialog extends React.Component<IProps, IState> {
         }
 
         let warning: JSX.Element | undefined;
-        if (window.Modernizr && Object.values(window.Modernizr).some((support) => support === false)) {
+        if (
+            (window.Modernizr && Object.values(window.Modernizr).some((support) => support === false)) ||
+            !getBrowserSupport()
+        ) {
             warning = (
                 <p>
                     <b>{_t("bug_reporting|unsupported_browser")}</b>

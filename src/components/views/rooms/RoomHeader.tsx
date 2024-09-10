@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useContext, useMemo, useState } from "react";
 import { Body as BodyText, Button, IconButton, Menu, MenuItem, Tooltip } from "@vector-im/compound-web";
 import { Icon as VideoCallIcon } from "@vector-im/compound-design-tokens/icons/video-call-solid.svg";
 import { Icon as VoiceCallIcon } from "@vector-im/compound-design-tokens/icons/voice-call.svg";
@@ -25,13 +25,11 @@ import { Icon as NotificationsIcon } from "@vector-im/compound-design-tokens/ico
 import VerifiedIcon from "@vector-im/compound-design-tokens/assets/web/icons/verified";
 import ErrorIcon from "@vector-im/compound-design-tokens/assets/web/icons/error";
 import PublicIcon from "@vector-im/compound-design-tokens/assets/web/icons/public";
-import { EventType, JoinRule, type Room } from "matrix-js-sdk/src/matrix";
+import { JoinRule, type Room } from "matrix-js-sdk/src/matrix";
 import { ViewRoomOpts } from "@matrix-org/react-sdk-module-api/lib/lifecycles/RoomViewLifecycle";
 
 import { useRoomName } from "../../../hooks/useRoomName";
 import { RightPanelPhases } from "../../../stores/right-panel/RightPanelStorePhases";
-import { useTopic } from "../../../hooks/room/useTopic";
-import { useAccountData } from "../../../hooks/useAccountData";
 import { useMatrixClientContext } from "../../../contexts/MatrixClientContext";
 import { useRoomMemberCount, useRoomMembers } from "../../../hooks/useRoomMembers";
 import { _t } from "../../../languageHandler";
@@ -49,17 +47,20 @@ import { useRoomState } from "../../../hooks/useRoomState";
 import RoomAvatar from "../avatars/RoomAvatar";
 import { formatCount } from "../../../utils/FormattingUtils";
 import RightPanelStore from "../../../stores/right-panel/RightPanelStore";
-import { Linkify, topicToHtml } from "../../../HtmlUtils";
 import PosthogTrackers from "../../../PosthogTrackers";
 import { VideoRoomChatButton } from "./RoomHeader/VideoRoomChatButton";
 import { RoomKnocksBar } from "./RoomKnocksBar";
-import { isVideoRoom } from "../../../utils/video-rooms";
+import { useIsVideoRoom } from "../../../utils/video-rooms";
 import { notificationLevelToIndicator } from "../../../utils/notifications";
 import { CallGuestLinkButton } from "./RoomHeader/CallGuestLinkButton";
 import { ButtonEvent } from "../elements/AccessibleButton";
 import { ReleaseAnnouncement } from "../../structures/ReleaseAnnouncement";
 import { useIsReleaseAnnouncementOpen } from "../../../hooks/useIsReleaseAnnouncementOpen";
 import { ReleaseAnnouncementStore } from "../../../stores/ReleaseAnnouncementStore";
+import WithPresenceIndicator, { useDmMember } from "../avatars/WithPresenceIndicator";
+import { IOOBData } from "../../../stores/ThreepidInviteStore";
+import RoomContext from "../../../contexts/RoomContext";
+import { MainSplitContentType } from "../../structures/RoomView";
 
 import TchapUIFeature from "../../../../../../src/tchap/util/TchapUIFeature"; // :TCHAP: customize-room-header-bar
 import TchapExternalRoomHeader from "../../../../../../src/tchap/components/views/rooms/TchapExternalRoomHeader"; // :TCHAP: customize-room-header-bar
@@ -68,15 +69,16 @@ import DecoratedRoomAvatar from "../avatars/DecoratedRoomAvatar"; // :TCHAP: cus
 export default function RoomHeader({
     room,
     additionalButtons,
+    oobData,
 }: {
     room: Room;
     additionalButtons?: ViewRoomOpts["buttons"];
+    oobData?: IOOBData;
 }): JSX.Element {
     const client = useMatrixClientContext();
 
     const roomName = useRoomName(room);
-    const roomTopic = useTopic(room);
-    const roomState = useRoomState(room);
+    const joinRule = useRoomState(room, (state) => state.getJoinRule());
 
     const members = useRoomMembers(room, 2500);
     const memberCount = useRoomMemberCount(room, { throttleWait: 2500 });
@@ -107,28 +109,18 @@ export default function RoomHeader({
     const threadNotifications = useRoomThreadNotifications(room);
     const globalNotificationState = useGlobalNotificationState();
 
-    const directRoomsList = useAccountData<Record<string, string[]>>(client, EventType.Direct);
-    const [isDirectMessage, setDirectMessage] = useState(false);
-    useEffect(() => {
-        for (const [, dmRoomList] of Object.entries(directRoomsList)) {
-            if (dmRoomList.includes(room?.roomId ?? "")) {
-                setDirectMessage(true);
-                break;
-            }
-        }
-    }, [room, directRoomsList]);
+    const dmMember = useDmMember(room);
+    const isDirectMessage = !!dmMember;
     const e2eStatus = useEncryptionStatus(client, room);
 
     const notificationsEnabled = useFeatureEnabled("feature_notifications");
 
-    const roomTopicBody = useMemo(
-        () => topicToHtml(roomTopic?.text, roomTopic?.html),
-        [roomTopic?.html, roomTopic?.text],
-    );
-
     const askToJoinEnabled = useFeatureEnabled("feature_ask_to_join");
 
-    const videoClick = useCallback((ev) => videoCallClick(ev, callOptions[0]), [callOptions, videoCallClick]);
+    const videoClick = useCallback(
+        (ev: React.MouseEvent) => videoCallClick(ev, callOptions[0]),
+        [callOptions, videoCallClick],
+    );
 
     const toggleCallButton = (
         <Tooltip label={isViewingCall ? _t("voip|minimise_call") : _t("voip|maximise_call")}>
@@ -247,6 +239,13 @@ export default function RoomHeader({
 
     const isReleaseAnnouncementOpen = useIsReleaseAnnouncementOpen("newRoomHeader");
 
+    const roomContext = useContext(RoomContext);
+    const isVideoRoom = useIsVideoRoom(room);
+    const showChatButton =
+        isVideoRoom ||
+        roomContext.mainSplitContentType === MainSplitContentType.MaximisedWidget ||
+        roomContext.mainSplitContentType === MainSplitContentType.Call;
+
     return (
         <>
             <Flex as="header" align="center" gap="var(--cpd-space-3x)" className="mx_RoomHeader light-panel">
@@ -268,6 +267,7 @@ export default function RoomHeader({
                         }}
                         className="mx_RoomHeader_infoWrapper"
                     >
+<<<<<<< HEAD
                         {/* :TCHAP: customize-room-header-bar - RoomAvatar -> DecoratedRoomAvatar
                     <RoomAvatar room={room} size="40px" />
                     */}
@@ -300,6 +300,33 @@ export default function RoomHeader({
                                 </Tooltip>
                             )}
                             */}
+=======
+                        <WithPresenceIndicator room={room} size="8px">
+                            <RoomAvatar room={room} size="40px" oobData={oobData} />
+                        </WithPresenceIndicator>
+                        <Box flex="1" className="mx_RoomHeader_info">
+                            <BodyText
+                                as="div"
+                                size="lg"
+                                weight="semibold"
+                                dir="auto"
+                                role="heading"
+                                aria-level={1}
+                                className="mx_RoomHeader_heading"
+                            >
+                                <span className="mx_RoomHeader_truncated mx_lineClamp">{roomName}</span>
+
+                                {!isDirectMessage && joinRule === JoinRule.Public && (
+                                    <Tooltip label={_t("common|public_room")} placement="right">
+                                        <PublicIcon
+                                            width="16px"
+                                            height="16px"
+                                            className="mx_RoomHeader_icon text-secondary"
+                                            aria-label={_t("common|public_room")}
+                                        />
+                                    </Tooltip>
+                                )}
+>>>>>>> v3.108.0
 
                             {/* :tchap: customize-room-header-bar - do not show e2eStatus
                             {isDirectMessage && e2eStatus === E2EStatus.Verified && (
@@ -314,6 +341,7 @@ export default function RoomHeader({
                             )}
                             */}
 
+<<<<<<< HEAD
                             {/* :tchap: customize-room-header-bar - do not show E2EStatus.Warning
                             {isDirectMessage && e2eStatus === E2EStatus.Warning && (
                                 <Tooltip label={_t("room|header_untrusted_label")} placement="right">
@@ -336,6 +364,19 @@ export default function RoomHeader({
                                     <Linkify>{roomTopicBody}</Linkify>
                                 </BodyText>
                             )}
+=======
+                                {isDirectMessage && e2eStatus === E2EStatus.Warning && (
+                                    <Tooltip label={_t("room|header_untrusted_label")} placement="right">
+                                        <ErrorIcon
+                                            width="16px"
+                                            height="16px"
+                                            className="mx_RoomHeader_icon mx_Untrusted"
+                                            aria-label={_t("room|header_untrusted_label")}
+                                        />
+                                    </Tooltip>
+                                )}
+                            </BodyText>
+>>>>>>> v3.108.0
                         </Box>
                     </button>
                 </ReleaseAnnouncement>
@@ -359,12 +400,12 @@ export default function RoomHeader({
                     })}
 
                     {isViewingCall && <CallGuestLinkButton room={room} />}
-                    {((isConnectedToCall && isViewingCall) || isVideoRoom(room)) && <VideoRoomChatButton room={room} />}
 
                     {hasActiveCallSession && !isConnectedToCall && !isViewingCall ? (
                         joinCallButton
                     ) : (
                         <>
+<<<<<<< HEAD
                             { /* :TCHAP: customize-room-header-bar - activate video call only if directmessage and if feature is activated on homeserver }
                             {!isVideoRoom(room) && videoCallButton}
                             */ }
@@ -378,6 +419,10 @@ export default function RoomHeader({
                             {isDirectMessage && TchapUIFeature.isFeatureActiveForHomeserver("feature_audio_call") &&
                               !useElementCallExclusively && !isVideoRoom(room) && voiceCallButton}
                             {/* end :TCHAP: */}
+=======
+                            {!isVideoRoom && videoCallButton}
+                            {!useElementCallExclusively && !isVideoRoom && voiceCallButton}
+>>>>>>> v3.108.0
                         </>
                     )}
 
@@ -393,7 +438,12 @@ export default function RoomHeader({
                         </IconButton>
                     </Tooltip>
 
+<<<<<<< HEAD
                     {/* :TCHAP: extend-remove-thread-buttons <Tooltip label={_t("common|threads")}>
+=======
+                    {showChatButton && <VideoRoomChatButton room={room} />}
+
+>>>>>>> v3.108.0
                     <Tooltip label={_t("common|threads")}>
                         <IconButton
                             indicator={notificationLevelToIndicator(threadNotifications)}
