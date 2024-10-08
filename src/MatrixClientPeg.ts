@@ -32,12 +32,8 @@ import Modal from "./Modal";
 import MatrixClientBackedSettingsHandler from "./settings/handlers/MatrixClientBackedSettingsHandler";
 import * as StorageManager from "./utils/StorageManager";
 import IdentityAuthClient from "./IdentityAuthClient";
-<<<<<<< HEAD
 import { crossSigningCallbacks, tryToUnlockSecretStorageWithDehydrationKey } from "./SecurityManager";
 import { ModuleRunner } from "./modules/ModuleRunner";
-=======
-import { crossSigningCallbacks } from "./SecurityManager";
->>>>>>> v3.112.0
 import { SlidingSyncManager } from "./SlidingSyncManager";
 import CryptoStoreTooNewDialog from "./components/views/dialogs/CryptoStoreTooNewDialog";
 import { _t, UserFriendlyError } from "./languageHandler";
@@ -48,11 +44,8 @@ import PlatformPeg from "./PlatformPeg";
 import { formatList } from "./utils/FormattingUtils";
 import SdkConfig from "./SdkConfig";
 import { Features } from "./settings/Settings";
-<<<<<<< HEAD
 import { PhasedRolloutFeature } from "./utils/PhasedRolloutFeature";
-=======
 import { setDeviceIsolationMode } from "./settings/controllers/DeviceIsolationModeController.ts";
->>>>>>> v3.112.0
 
 export interface IMatrixClientCreds {
     homeserverUrl: string;
@@ -378,8 +371,10 @@ class MatrixClientPegClass implements IMatrixClientPeg {
                 storagePassword: rustCryptoStorePassword,
             });
 
-<<<<<<< HEAD
             StorageManager.setCryptoInitialised(true);
+
+            setDeviceIsolationMode(this.matrixClient, SettingsStore.getValue("feature_exclude_insecure_devices"));
+    
             // TODO: device dehydration and whathaveyou
             return;
         }
@@ -404,14 +399,6 @@ class MatrixClientPegClass implements IMatrixClientPeg {
             // that the olm library was missing. It's not fatal.
             logger.warn("Unable to initialise e2e", e);
         }
-=======
-        StorageManager.setCryptoInitialised(true);
-
-        setDeviceIsolationMode(this.matrixClient, SettingsStore.getValue("feature_exclude_insecure_devices"));
-
-        // TODO: device dehydration and whathaveyou
-        return;
->>>>>>> v3.112.0
     }
 
     /**

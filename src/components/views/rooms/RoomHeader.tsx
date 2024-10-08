@@ -262,18 +262,6 @@ export default function RoomHeader({
                     onClick={() => RightPanelStore.instance.showOrHidePhase(RightPanelPhases.RoomSummary)}
                     className="mx_RoomHeader_infoWrapper"
                 >
-<<<<<<< HEAD
-                    <button
-                        aria-label={_t("right_panel|room_summary_card|title")}
-                        tabIndex={0}
-                        onClick={() => {
-                            if (isReleaseAnnouncementOpen) {
-                                ReleaseAnnouncementStore.instance.nextReleaseAnnouncement();
-                            }
-                            RightPanelStore.instance.showOrHidePanel(RightPanelPhases.RoomSummary);
-                        }}
-                        className="mx_RoomHeader_infoWrapper"
-                    >
                     {/* :TCHAP: customize-room-header-bar - RoomAvatar -> DecoratedRoomAvatar
                     <WithPresenceIndicator room={room} size="8px">
                         <RoomAvatar room={room} size="40px" oobData={oobData} />
@@ -284,8 +272,6 @@ export default function RoomHeader({
                     {/* :tchap: customize-room-header-bar - Add external caption when room is open to external */}
                     <TchapExternalRoomHeader room={room}></TchapExternalRoomHeader>
                     {/* :tchap: end */}
-=======
->>>>>>> v3.112.0
                     <Box flex="1" className="mx_RoomHeader_info">
                         <BodyText
                             as="div"
@@ -298,12 +284,8 @@ export default function RoomHeader({
                         >
                             <span className="mx_RoomHeader_truncated mx_lineClamp">{roomName}</span>
 
-<<<<<<< HEAD
                             {/* :tchap: customize-room-header-bar - remove public forum icon
-                            {!isDirectMessage && roomState.getJoinRule() === JoinRule.Public && (
-=======
-                            {!isDirectMessage && joinRule === JoinRule.Public && (
->>>>>>> v3.112.0
+                            {!isDirectMessage && joinRule === JoinRule.Publicc && (
                                 <Tooltip label={_t("common|public_room")} placement="right">
                                     <PublicIcon
                                         width="16px"
@@ -313,13 +295,9 @@ export default function RoomHeader({
                                     />
                                 </Tooltip>
                             )}
-<<<<<<< HEAD
                             */}
 
                             {/* :tchap: customize-room-header-bar - do not show e2eStatus
-=======
-
->>>>>>> v3.112.0
                             {isDirectMessage && e2eStatus === E2EStatus.Verified && (
                                 <Tooltip label={_t("common|verified")} placement="right">
                                     <VerifiedIcon
@@ -330,13 +308,9 @@ export default function RoomHeader({
                                     />
                                 </Tooltip>
                             )}
-<<<<<<< HEAD
                             */}
 
                             {/* :tchap: customize-room-header-bar - do not show E2EStatus.Warning
-=======
-
->>>>>>> v3.112.0
                             {isDirectMessage && e2eStatus === E2EStatus.Warning && (
                                 <Tooltip label={_t("room|header_untrusted_label")} placement="right">
                                     <ErrorIcon
@@ -347,17 +321,10 @@ export default function RoomHeader({
                                     />
                                 </Tooltip>
                             )}
-<<<<<<< HEAD
                             */}
-                        </BodyText>
-                        </Box>
-                    </button>
-                </ReleaseAnnouncement>
-=======
                         </BodyText>
                     </Box>
                 </button>
->>>>>>> v3.112.0
                 <Flex align="center" gap="var(--cpd-space-2x)">
                     {additionalButtons?.map((props) => {
                         const label = props.label();

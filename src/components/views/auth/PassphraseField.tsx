@@ -15,11 +15,8 @@ import withValidation, { IFieldState, IValidationResult } from "../elements/Vali
 import { _t, _td, TranslationKey } from "../../../languageHandler";
 import Field, { IInputProps } from "../elements/Field";
 import { MatrixClientPeg } from "../../../MatrixClientPeg";
-<<<<<<< HEAD
 import TchapStrongPassword from "../../../../../../src/tchap/util/TchapStrongPassword";
-=======
 import { Alignment } from "../elements/Tooltip";
->>>>>>> v3.112.0
 
 interface IProps extends Omit<IInputProps, "onValidate" | "element"> {
     autoFocus?: boolean;

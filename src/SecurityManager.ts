@@ -6,14 +6,9 @@ SPDX-License-Identifier: AGPL-3.0-only OR GPL-3.0-only
 Please see LICENSE files in the repository root for full details.
 */
 
-<<<<<<< HEAD
 import { Crypto, ICryptoCallbacks, MatrixClient, encodeBase64, SecretStorage } from "matrix-js-sdk/src/matrix";
 import { deriveKey } from "matrix-js-sdk/src/crypto/key_passphrase";
-import { decodeRecoveryKey } from "matrix-js-sdk/src/crypto/recoverykey";
-=======
-import { ICryptoCallbacks, SecretStorage } from "matrix-js-sdk/src/matrix";
 import { deriveRecoveryKeyFromPassphrase, decodeRecoveryKey } from "matrix-js-sdk/src/crypto-api";
->>>>>>> v3.112.0
 import { logger } from "matrix-js-sdk/src/logger";
 
 import type CreateSecretStorageDialog from "./async-components/views/dialogs/security/CreateSecretStorageDialog";
@@ -36,7 +31,6 @@ let secretStorageKeys: Record<string, Uint8Array> = {};
 let secretStorageKeyInfo: Record<string, SecretStorage.SecretStorageKeyDescription> = {};
 let secretStorageBeingAccessed = false;
 
-<<<<<<< HEAD
 let nonInteractive = false;
 
 let dehydrationCache: {
@@ -44,8 +38,6 @@ let dehydrationCache: {
     keyInfo?: SecretStorage.SecretStorageKeyDescription;
 } = {};
 
-=======
->>>>>>> v3.112.0
 /**
  * This can be used by other components to check if secret storage access is in
  * progress, so that we can e.g. avoid intermittently showing toasts during

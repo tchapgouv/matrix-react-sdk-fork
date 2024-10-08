@@ -88,15 +88,11 @@ export default class CompleteSecurity extends React.Component<IProps, IState> {
         const forceVerification = SdkConfig.get("force_verification") ?? false;
 
         let skipButton;
-<<<<<<< HEAD
-        if (phase === Phase.Intro || phase === Phase.ConfirmReset) {
+
+        if (!forceVerification && (phase === Phase.Intro || phase === Phase.ConfirmReset)) {
             // :Tchap: cross-signing-ui - Condition to skip Phase.ConfirmSkip and its "Are you sure" modal after login for csss
             const tchapOnSkipClick = phase === Phase.Intro ? this.props.onFinished : this.onSkipClick;
             // end :Tchap:
-
-=======
-        if (!forceVerification && (phase === Phase.Intro || phase === Phase.ConfirmReset)) {
->>>>>>> v3.112.0
             skipButton = (
                 <AccessibleButton
                     // :tchap: cross-signing-ui - remove onClick={this.onSkipClick}

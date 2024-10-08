@@ -595,7 +595,6 @@ export default class RegistrationForm extends React.PureComponent<IProps, IState
         return (
             <div>
                 <form onSubmit={this.onSubmit}>
-<<<<<<< HEAD
                     { /* :TCHAP: registration-for-mainlining - remove username field, the server will generate it from email.
                     <div className="mx_AuthBody_fieldRow">
                         { this.renderUsername() }
@@ -607,14 +606,7 @@ export default class RegistrationForm extends React.PureComponent<IProps, IState
                         { this.renderEmail() }
                         { this.renderPhoneNumber() }
                     </div>
-=======
-                    <div className="mx_AuthBody_fieldRow">{this.renderUsername()}</div>
                     {passwordFields}
->>>>>>> v3.112.0
-                    <div className="mx_AuthBody_fieldRow">
-                        { this.renderPassword() }
-                        { this.renderPasswordConfirm() }
-                    </div>
                     { /* end :TCHAP: */}
                     { /** :TCHAP: registration-for-mainlining - remove helper text, adds confusion since email=username in tchap. // emailHelperText */ }
                     {registerButton}

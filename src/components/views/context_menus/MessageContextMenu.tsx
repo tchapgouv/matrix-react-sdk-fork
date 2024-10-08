@@ -51,13 +51,10 @@ import { getForwardableEvent } from "../../../events/forward/getForwardableEvent
 import { getShareableLocationEvent } from "../../../events/location/getShareableLocationEvent";
 import { ShowThreadPayload } from "../../../dispatcher/payloads/ShowThreadPayload";
 import { CardContext } from "../right_panel/context";
-<<<<<<< HEAD
 //:tchap: remove-thread-buttons - add feature flags
 import TchapUIFeature from "../../../../../../src/tchap/util/TchapUIFeature";
-=======
 import PinningUtils from "../../../utils/PinningUtils";
 import PosthogTrackers from "../../../PosthogTrackers.ts";
->>>>>>> v3.112.0
 
 interface IReplyInThreadButton {
     mxEvent: MatrixEvent;

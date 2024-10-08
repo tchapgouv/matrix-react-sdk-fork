@@ -607,9 +607,8 @@ export default class Registration extends React.Component<IProps, IState> {
             );
         } else if (this.state.matrixClient && this.state.flows.length) {
             let ssoSection: JSX.Element | undefined;
-<<<<<<< HEAD
             // :TCHAP: sso-agentconnect-flow
-            // if (this.state.ssoFlow) {
+            // if (!this.props.mobileRegister && this.state.ssoFlow) {
             //     let continueWithSection;
             //     const providers = this.state.ssoFlow.identity_providers || [];
             //     // when there is only a single (or 0) providers we show a wide button with `Continue with X` text
@@ -621,20 +620,6 @@ export default class Registration extends React.Component<IProps, IState> {
             //             </h2>
             //         );
             //     }
-=======
-            if (!this.props.mobileRegister && this.state.ssoFlow) {
-                let continueWithSection;
-                const providers = this.state.ssoFlow.identity_providers || [];
-                // when there is only a single (or 0) providers we show a wide button with `Continue with X` text
-                if (providers.length > 1) {
-                    // i18n: ssoButtons is a placeholder to help translators understand context
-                    continueWithSection = (
-                        <h2 className="mx_AuthBody_centered">
-                            {_t("auth|continue_with_sso", { ssoButtons: "" }).trim()}
-                        </h2>
-                    );
-                }
->>>>>>> v3.112.0
 
             //     // i18n: ssoButtons & usernamePassword are placeholders to help translators understand context
             //     ssoSection = (
@@ -655,18 +640,15 @@ export default class Registration extends React.Component<IProps, IState> {
             //             </h2>
             //         </React.Fragment>
             //     );
-            if (this.state.ssoFlow && TchapUIFeature.isSSOFlowActive()) {
+            if (!this.props.mobileRegister && this.state.ssoFlow && TchapUIFeature.isSSOFlowActive()) {
                 ssoSection = <>
                     <ProconnectButton/>
                     <p style={{textAlign: "center", fontWeight: "bold"}}>{_t("auth|sso|or")}</p>
                 </>
             }
-<<<<<<< HEAD
             // }
             // end :TCHAP:
 
-=======
->>>>>>> v3.112.0
             return (
                 <React.Fragment>
                     {ssoSection}

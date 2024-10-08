@@ -58,12 +58,9 @@ import { ShowThreadPayload } from "../../../dispatcher/payloads/ShowThreadPayloa
 import { GetRelationsForEvent, IEventTileType } from "../rooms/EventTile";
 import { VoiceBroadcastInfoEventType } from "../../../voice-broadcast/types";
 import { ButtonEvent } from "../elements/AccessibleButton";
-<<<<<<< HEAD
 import TchapUIFeature from "../../../../../../src/tchap/util/TchapUIFeature"; // :TCHAP: remove-thread-buttons
-=======
 import PinningUtils from "../../../utils/PinningUtils";
 import PosthogTrackers from "../../../PosthogTrackers.ts";
->>>>>>> v3.112.0
 
 interface IOptionsButtonProps {
     mxEvent: MatrixEvent;

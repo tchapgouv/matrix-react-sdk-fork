@@ -30,11 +30,8 @@ import { SummarizedNotificationState } from "../../../stores/notifications/Summa
 import PosthogTrackers from "../../../PosthogTrackers";
 import { ButtonEvent } from "../elements/AccessibleButton";
 import { doesRoomOrThreadHaveUnreadMessages } from "../../../Unread";
-<<<<<<< HEAD
 import TchapUIFeature from "../../../../../../src/tchap/util/TchapUIFeature"; // :TCHAP: remove-thread-buttons
-=======
 import { usePinnedEvents, useReadPinnedEvents } from "../../../hooks/usePinnedEvents";
->>>>>>> v3.112.0
 
 const ROOM_INFO_PHASES = [
     RightPanelPhases.RoomSummary,
