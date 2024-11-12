@@ -7,12 +7,8 @@ Please see LICENSE files in the repository root for full details.
 */
 
 import React from "react";
-<<<<<<< HEAD
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-=======
-import { render, screen } from "jest-matrix-react";
->>>>>>> v3.114.0
 
 import LabsUserSettingsTab from "../../../../../../src/components/views/settings/tabs/user/LabsUserSettingsTab";
 import SettingsStore from "../../../../../../src/settings/SettingsStore";
