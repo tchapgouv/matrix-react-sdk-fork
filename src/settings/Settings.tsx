@@ -39,6 +39,7 @@ import { WatchManager } from "./WatchManager";
 import { CustomTheme } from "../theme";
 import SettingsStore from "./SettingsStore";
 import AnalyticsController from "./controllers/AnalyticsController";
+import FallbackIceServerController from "./controllers/FallbackIceServerController";
 
 export const defaultWatchManager = new WatchManager();
 
@@ -295,14 +296,6 @@ export const SETTINGS: { [setting: string]: ISetting } = {
         isFeature: true,
         labsGroup: LabGroup.Themes,
         displayName: _td("labs|custom_themes"),
-        supportedLevels: LEVELS_DEVICE_ONLY_SETTINGS_WITH_CONFIG_PRIORITISED,
-        supportedLevelsAreOrdered: true,
-        default: false,
-    },
-    "feature_dehydration": {
-        isFeature: true,
-        labsGroup: LabGroup.Encryption,
-        displayName: _td("labs|dehydration"),
         supportedLevels: LEVELS_DEVICE_ONLY_SETTINGS_WITH_CONFIG_PRIORITISED,
         supportedLevelsAreOrdered: true,
         default: false,
@@ -595,18 +588,6 @@ export const SETTINGS: { [setting: string]: ISetting } = {
         displayName: _td("labs|ask_to_join"),
         supportedLevels: LEVELS_DEVICE_ONLY_SETTINGS_WITH_CONFIG_PRIORITISED,
         supportedLevelsAreOrdered: true,
-    },
-    "feature_new_room_decoration_ui": {
-        isFeature: true,
-        labsGroup: LabGroup.Rooms,
-        displayName: _td("labs|new_room_decoration_ui"),
-        supportedLevels: LEVELS_DEVICE_ONLY_SETTINGS_WITH_CONFIG,
-        default: true,
-        controller: new ReloadOnChangeController(),
-        betaInfo: {
-            title: _td("labs|new_room_decoration_ui_beta_title"),
-            caption: () => <p>{_t("labs|new_room_decoration_ui_beta_caption")}</p>,
-        },
     },
     "feature_notifications": {
         isFeature: true,
@@ -1010,6 +991,7 @@ export const SETTINGS: { [setting: string]: ISetting } = {
         description: _td("settings|voip|enable_fallback_ice_server_description"),
         // This is a tri-state value, where `null` means "prompt the user".
         default: null,
+        controller: new FallbackIceServerController(),
     },
     "showImages": {
         supportedLevels: LEVELS_ACCOUNT_SETTINGS,

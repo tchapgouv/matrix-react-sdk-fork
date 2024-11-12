@@ -10,13 +10,13 @@ import classNames from "classnames";
 import React, { forwardRef, ForwardRefExoticComponent, useContext } from "react";
 import { MatrixEvent } from "matrix-js-sdk/src/matrix";
 import { DecryptionFailureCode } from "matrix-js-sdk/src/crypto-api";
+import { WarningIcon } from "@vector-im/compound-design-tokens/assets/web/icons";
 
 import { _t } from "../../../languageHandler";
 import { IBodyProps } from "./IBodyProps";
 import TchapUrls from "../../../../../../src/tchap/util/TchapUrls"; // :TCHAP: better-text-for-locked-messages
 import ExternalLink from "../elements/ExternalLink"; // :TCHAP: better-text-for-locked-messages
 import { LocalDeviceVerificationStateContext } from "../../../contexts/LocalDeviceVerificationStateContext";
-import { Icon as WarningBadgeIcon } from "../../../../res/img/compound/error-16px.svg";
 
 function getErrorMessage(mxEvent: MatrixEvent, isVerified: boolean | undefined): string | React.JSX.Element {
     switch (mxEvent.decryptionFailureReason) {
@@ -43,7 +43,7 @@ function getErrorMessage(mxEvent: MatrixEvent, isVerified: boolean | undefined):
         case DecryptionFailureCode.SENDER_IDENTITY_PREVIOUSLY_VERIFIED:
             return (
                 <span>
-                    <WarningBadgeIcon className="mx_Icon mx_Icon_16" />
+                    <WarningIcon className="mx_Icon mx_Icon_16" />
                     {_t("timeline|decryption_failure|sender_identity_previously_verified")}
                 </span>
             );

@@ -26,7 +26,7 @@ import {
 import { KnownMembership } from "matrix-js-sdk/src/types";
 import { throttle } from "lodash";
 import { Button, Tooltip } from "@vector-im/compound-web";
-import { Icon as UserAddIcon } from "@vector-im/compound-design-tokens/icons/user-add-solid.svg";
+import UserAddIcon from "@vector-im/compound-design-tokens/assets/web/icons/user-add-solid";
 
 import { _t } from "../../../languageHandler";
 import dis from "../../../dispatcher/dispatcher";
@@ -57,7 +57,6 @@ const SHOW_MORE_INCREMENT = 100;
 interface IProps {
     roomId: string;
     searchQuery: string;
-    hideHeaderButtons?: boolean;
     onClose(): void;
     onSearchQueryChanged: (query: string) => void;
 }
@@ -241,7 +240,11 @@ export default class MemberList extends React.Component<IProps, IState> {
             <EntityTile
                 className="mx_EntityTile_ellipsis"
                 avatarJsx={
-                    <BaseAvatar url={require("../../../../res/img/ellipsis.svg").default} name="..." size="36px" />
+                    <BaseAvatar
+                        url={require("@vector-im/compound-design-tokens/icons/overflow-horizontal.svg").default}
+                        name="..."
+                        size="36px"
+                    />
                 }
                 name={text}
                 showPresence={false}
@@ -357,7 +360,7 @@ export default class MemberList extends React.Component<IProps, IState> {
                     className="mx_MemberList"
                     ariaLabelledBy="memberlist-panel-tab"
                     role="tabpanel"
-                    hideHeaderButtons={this.props.hideHeaderButtons}
+                    header={_t("common|people")}
                     onClose={this.props.onClose}
                 >
                     <Spinner />
@@ -422,7 +425,7 @@ export default class MemberList extends React.Component<IProps, IState> {
                 className="mx_MemberList"
                 ariaLabelledBy="memberlist-panel-tab"
                 role="tabpanel"
-                hideHeaderButtons={this.props.hideHeaderButtons}
+                header={_t("common|people")}
                 footer={footer}
                 onClose={this.props.onClose}
             >

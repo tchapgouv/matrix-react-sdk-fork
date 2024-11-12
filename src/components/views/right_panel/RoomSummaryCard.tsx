@@ -21,19 +21,22 @@ import {
     Form,
 } from "@vector-im/compound-web";
 import FavouriteIcon from "@vector-im/compound-design-tokens/assets/web/icons/favourite";
-import { Icon as UserAddIcon } from "@vector-im/compound-design-tokens/icons/user-add.svg";
+import UserAddIcon from "@vector-im/compound-design-tokens/assets/web/icons/user-add";
 import LinkIcon from "@vector-im/compound-design-tokens/assets/web/icons/link";
 import SettingsIcon from "@vector-im/compound-design-tokens/assets/web/icons/settings";
-import { Icon as ExportArchiveIcon } from "@vector-im/compound-design-tokens/icons/export-archive.svg";
+import ExportArchiveIcon from "@vector-im/compound-design-tokens/assets/web/icons/export-archive";
 import LeaveIcon from "@vector-im/compound-design-tokens/assets/web/icons/leave";
 import FilesIcon from "@vector-im/compound-design-tokens/assets/web/icons/files";
+import ExtensionsIcon from "@vector-im/compound-design-tokens/assets/web/icons/extensions";
+import UserProfileIcon from "@vector-im/compound-design-tokens/assets/web/icons/user-profile";
+import ThreadsIcon from "@vector-im/compound-design-tokens/assets/web/icons/threads";
 import PollsIcon from "@vector-im/compound-design-tokens/assets/web/icons/polls";
 import PinIcon from "@vector-im/compound-design-tokens/assets/web/icons/pin";
-import { Icon as LockIcon } from "@vector-im/compound-design-tokens/icons/lock-solid.svg";
-import { Icon as LockOffIcon } from "@vector-im/compound-design-tokens/icons/lock-off.svg";
+import LockIcon from "@vector-im/compound-design-tokens/assets/web/icons/lock-solid";
+import LockOffIcon from "@vector-im/compound-design-tokens/assets/web/icons/lock-off";
 import PublicIcon from "@vector-im/compound-design-tokens/assets/web/icons/public";
 import ErrorIcon from "@vector-im/compound-design-tokens/assets/web/icons/error";
-import { Icon as ChevronDownIcon } from "@vector-im/compound-design-tokens/icons/chevron-down.svg";
+import ChevronDownIcon from "@vector-im/compound-design-tokens/assets/web/icons/chevron-down";
 import { EventType, JoinRule, Room, RoomStateEvent } from "matrix-js-sdk/src/matrix";
 
 import MatrixClientContext from "../../../contexts/MatrixClientContext";
@@ -85,8 +88,20 @@ interface IProps {
     focusRoomSearch?: boolean;
 }
 
+const onRoomMembersClick = (): void => {
+    RightPanelStore.instance.pushCard({ phase: RightPanelPhases.RoomMemberList }, true);
+};
+
+const onRoomThreadsClick = (): void => {
+    RightPanelStore.instance.pushCard({ phase: RightPanelPhases.ThreadPanel }, true);
+};
+
 const onRoomFilesClick = (): void => {
     RightPanelStore.instance.pushCard({ phase: RightPanelPhases.FilePanel }, true);
+};
+
+const onRoomExtensionsClick = (): void => {
+    RightPanelStore.instance.pushCard({ phase: RightPanelPhases.Extensions }, true);
 };
 
 const onRoomPinsClick = (): void => {
@@ -257,7 +272,7 @@ const RoomSummaryCard: React.FC<IProps> = ({
     );
 
     const alias = room.getCanonicalAlias() || room.getAltAliases()[0] || "";
-    const header = (
+    const roomInfo = (
         <header className="mx_RoomSummaryCard_container">
             {/** :TCHAP: tchap-room-icons - decorate the avatar with the tchap lock icons
             <RoomAvatar room={room} size="80px" viewAvatarOnClick />
@@ -290,28 +305,28 @@ const RoomSummaryCard: React.FC<IProps> = ({
             {/* :TCHAP: tchap-room-icons - remove badges
             <Flex as="section" justify="center" gap="var(--cpd-space-2x)" className="mx_RoomSummaryCard_badges">
                 {!isDirectMessage && roomState.getJoinRule() === JoinRule.Public && (
-                    <Badge kind="default">
+                    <Badge kind="grey">
                         <PublicIcon width="1em" />
                         {_t("common|public_room")}
                     </Badge>
                 )}
 
                 {isRoomEncrypted && e2eStatus !== E2EStatus.Warning && (
-                    <Badge kind="success">
+                    <Badge kind="green">
                         <LockIcon width="1em" />
                         {_t("common|encrypted")}
                     </Badge>
                 )}
 
                 {!e2eStatus && (
-                    <Badge kind="default">
+                    <Badge kind="grey">
                         <LockOffIcon width="1em" />
                         {_t("common|unencrypted")}
                     </Badge>
                 )}
 
                 {e2eStatus === E2EStatus.Warning && (
-                    <Badge kind="critical">
+                    <Badge kind="red">
                         <ErrorIcon width="1em" />
                         {_t("common|not_trusted")}
                     </Badge>
@@ -331,42 +346,34 @@ const RoomSummaryCard: React.FC<IProps> = ({
     const canInviteToState = useEventEmitterState(room, RoomStateEvent.Update, () => canInviteTo(room));
     const isFavorite = roomTags.includes(DefaultTagID.Favourite);
 
+    const header = onSearchChange && (
+        <Form.Root className="mx_RoomSummaryCard_search" onSubmit={(e) => e.preventDefault()}>
+            <Search
+                placeholder={_t("room|search|placeholder")}
+                name="room_message_search"
+                onChange={onSearchChange}
+                className="mx_no_textinput"
+                ref={searchInputRef}
+                autoFocus={focusRoomSearch}
+                onKeyDown={(e) => {
+                    if (searchInputRef.current && e.key === Key.ESCAPE) {
+                        searchInputRef.current.value = "";
+                        onSearchCancel?.();
+                    }
+                }}
+            />
+        </Form.Root>
+    );
+
     return (
         <BaseCard
-            hideHeaderButtons
             id="room-summary-panel"
             className="mx_RoomSummaryCard"
             ariaLabelledBy="room-summary-panel-tab"
             role="tabpanel"
+            header={header}
         >
-            <Flex
-                as="header"
-                className="mx_RoomSummaryCard_header"
-                gap="var(--cpd-space-3x)"
-                align="center"
-                justify="space-between"
-            >
-                {onSearchChange && (
-                    <Form.Root className="mx_RoomSummaryCard_search" onSubmit={(e) => e.preventDefault()}>
-                        <Search
-                            placeholder={_t("room|search|placeholder")}
-                            name="room_message_search"
-                            onChange={onSearchChange}
-                            className="mx_no_textinput"
-                            ref={searchInputRef}
-                            autoFocus={focusRoomSearch}
-                            onKeyDown={(e) => {
-                                if (searchInputRef.current && e.key === Key.ESCAPE) {
-                                    searchInputRef.current.value = "";
-                                    onSearchCancel?.();
-                                }
-                            }}
-                        />
-                    </Form.Root>
-                )}
-            </Flex>
-
-            {header}
+            {roomInfo}
 
             <Separator />
 
@@ -375,9 +382,7 @@ const RoomSummaryCard: React.FC<IProps> = ({
                     Icon={FavouriteIcon}
                     label={_t("room|context_menu|favourite")}
                     checked={isFavorite}
-                    onChange={() => tagRoom(room, DefaultTagID.Favourite)}
-                    // XXX: https://github.com/element-hq/compound/issues/288
-                    onSelect={() => {}}
+                    onSelect={() => tagRoom(room, DefaultTagID.Favourite)}
                 />
                 <MenuItem
                     Icon={UserAddIcon}
@@ -388,6 +393,8 @@ const RoomSummaryCard: React.FC<IProps> = ({
 
                 <Separator />
 
+                <MenuItem Icon={UserProfileIcon} label={_t("common|people")} onSelect={onRoomMembersClick} />
+                <MenuItem Icon={ThreadsIcon} label={_t("common|threads")} onSelect={onRoomThreadsClick} />
                 {!isVideoRoom && (
                     <>
                         <ReleaseAnnouncement
@@ -410,6 +417,11 @@ const RoomSummaryCard: React.FC<IProps> = ({
                             </div>
                         </ReleaseAnnouncement>
                         <MenuItem Icon={FilesIcon} label={_t("right_panel|files_button")} onSelect={onRoomFilesClick} />
+                        <MenuItem
+                            Icon={ExtensionsIcon}
+                            label={_t("right_panel|extensions_button")}
+                            onSelect={onRoomExtensionsClick}
+                        />
                     </>
                 )}
 

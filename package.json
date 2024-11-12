@@ -1,9 +1,15 @@
 {
     "name": "matrix-react-sdk",
+<<<<<<< HEAD
     "version": "0.0.0",
     "version-matrix": "3.113.0",
     "description": "SDK for matrix.org using React for Tchap",
     "author": "DINUM",
+=======
+    "version": "3.114.0",
+    "description": "SDK for matrix.org using React",
+    "author": "New Vector Ltd.",
+>>>>>>> v3.114.0
     "repository": {
         "type": "git",
         "url": "https://github.com/tchapgouv/matrix-react-sdk-tchap"
@@ -69,20 +75,28 @@
         "jwt-decode": "4.0.0",
         "@floating-ui/react": "0.26.11",
         "@radix-ui/react-id": "1.1.0",
-        "caniuse-lite": "1.0.30001655"
+        "caniuse-lite": "1.0.30001655",
+        "wrap-ansi-cjs": "npm:wrap-ansi@^7.0.0",
+        "wrap-ansi": "npm:wrap-ansi@^7.0.0"
     },
     "dependencies": {
         "@babel/runtime": "^7.12.5",
+<<<<<<< HEAD
         "@matrix-org/analytics-events": "^0.25.0",
         "@matrix-org/emojibase-bindings": "^1.1.2",
         "@matrix-org/matrix-wysiwyg": "2.37.9",
         "@matrix-org/olm": "3.2.15",
+=======
+        "@matrix-org/analytics-events": "^0.26.0",
+        "@matrix-org/emojibase-bindings": "^1.3.3",
+>>>>>>> v3.114.0
         "@matrix-org/react-sdk-module-api": "^2.4.0",
         "@matrix-org/spec": "^1.7.0",
         "@sentry/browser": "^8.0.0",
         "@testing-library/react-hooks": "^8.0.1",
         "@vector-im/compound-design-tokens": "^1.8.0",
-        "@vector-im/compound-web": "^5.5.0",
+        "@vector-im/compound-web": "^7.0.0",
+        "@vector-im/matrix-wysiwyg": "2.37.13",
         "@zxcvbn-ts/core": "^3.0.4",
         "@zxcvbn-ts/language-common": "^3.0.4",
         "@zxcvbn-ts/language-en": "^3.0.2",
@@ -116,7 +130,7 @@
         "maplibre-gl": "^2.0.0",
         "matrix-encrypt-attachment": "^1.0.3",
         "matrix-events-sdk": "0.0.1",
-        "matrix-js-sdk": "34.8.0",
+        "matrix-js-sdk": "34.9.0-rc.0",
         "matrix-widget-api": "^1.9.0",
         "memoize-one": "^6.0.0",
         "minimist": "^1.2.5",
@@ -173,7 +187,7 @@
         "@types/css-tree": "^2.3.8",
         "@types/diff-match-patch": "^1.0.32",
         "@types/escape-html": "^1.0.1",
-        "@types/express": "^4.17.21",
+        "@types/express": "^5.0.0",
         "@types/file-saver": "^2.0.3",
         "@types/fs-extra": "^11.0.0",
         "@types/glob-to-regexp": "^0.4.1",
@@ -200,6 +214,7 @@
         "axe-core": "4.10.0",
         "babel-jest": "^29.0.0",
         "blob-polyfill": "^9.0.0",
+        "core-js": "^3.38.1",
         "eslint": "8.57.1",
         "eslint-config-google": "^0.14.0",
         "eslint-config-prettier": "^9.0.0",
